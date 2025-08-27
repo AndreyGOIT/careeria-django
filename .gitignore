@@ -1,0 +1,18 @@
+# Виртуальное окружение
+venv/
+
+# База данных SQLite
+*.sqlite3
+*.db
+
+# Кэш Python
+__pycache__/
+*.pyc
+*.pyo
+
+# Среда IDE (VSCode, PyCharm)
+.vscode/
+.idea/
+
+# Файл переменных окружения (в нем могут быть пароли!)
+.env
