@@ -2,6 +2,23 @@
 
 <h1>Suppliers</h1>
 
-<p>{{ x }}</p>
+{% for s in suppliers %}
+<div class="card" style="width: 50rem">
+  <div class="card-body">
+    <h4 class="card-title">{{s.companyname}}</h4>
+    <p class="card-text">
+      Contact person: {{s.contactname}} | phone: {{s.phone}} | email:
+      {{s.email}}
+    </p>
+    <p class="card-text">Address: {{s.address}} | Country: {{s.country}}</p>
 
-{% endblock %}
+    <a href="/edit-supplier-get/{{s.id}}/" class="btn btn-primary">Edit</a>
+    <a href="/confirm-delete-supplier/{{s.id}}/" class="btn btn-danger"
+      >Delete</a
+    >
+    <a href="/products-by-supplier/{{s.id}}/" class="btn btn-secondary"
+      >{{s.companyname}} Products</a
+    >
+  </div>
+</div>
+{% endfor %} {% endblock %}

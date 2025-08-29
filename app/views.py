@@ -1,13 +1,19 @@
 from django.shortcuts import render
+from .models import Supplier, Product
 
 # Create your views here.
 def landing_view(request):
     return render(request, 'landingpage.html')
 
-def product_list_view(request):
-    return render(request, 'productlist.html')
+# Product view´s
+def productlistview(request):
+    productlist = Product.objects.all()
+    supplierlist = Supplier.objects.all()
+    context = {'products': productlist, 'suppliers': supplierlist}
+    return render (request,"productlist.html",context)
 
-def supplier_list_view(request):
-    muutuja = "Tämä on merkkijono"
-    context = {'x': muutuja}
-    return render(request, 'supplierlist.html', context)
+# Supplier view´s
+def supplierlistview(request):
+    supplierlist = Supplier.objects.all()
+    context = {'suppliers': supplierlist}
+    return render (request,"supplierlist.html",context)
