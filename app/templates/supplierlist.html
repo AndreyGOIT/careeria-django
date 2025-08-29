@@ -1,6 +1,14 @@
 {% extends "index.html" %} {% block content %}
 
-<h1>Suppliers</h1>
+<br />
+<div id="add-div"></div>
+<br />
+
+<h1 style="color: darkviolet">Suppliers</h1>
+
+<button id="add-btn" class="btn btn-success btn-sm" onclick="showaddform()">
+  Add new supplier
+</button>
 
 {% for s in suppliers %}
 <div class="card" style="width: 50rem">
@@ -21,4 +29,37 @@
     >
   </div>
 </div>
-{% endfor %} {% endblock %}
+{% endfor %}
+
+<script>
+  let x = `
+    <h2 style="color: lightblue">Please fill in form</h2>
+    
+    <div class="card" style="width: 20rem;">
+        <div class="card-body">
+            <form method="post" action="/add-supplier/">
+    
+                {% csrf_token %}
+                <input class="card-text" class="card-text" type="text" placeholder="company´s name" name="companyname">
+                <input class="card-text" type="text" placeholder="contact person" name="contactname">
+                <input class="card-text" type="text" placeholder="address" name="address">
+                <input class="card-text" type="text" placeholder="phone" name="phone">
+                <input class="card-text" type="text" placeholder="email" name="email">
+                <input class="card-text" type="text" placeholder="country" name="country">
+                <br/>
+                <input type="submit" value="Confirm" class="btn btn-success btn-sm" name="">
+                <input type="submit" id="hide-btn" class="btn btn-secondary btn-sm" onclick="hideaddform()" value="Cancel" name="">
+            </form>
+        </div>
+    </div>`;
+
+  function showaddform() {
+    document.getElementById("add-div").innerHTML = x;
+  }
+
+  function hideaddform() {
+    document.getElementById("add-div").innerHTML = "";
+  }
+</script>
+
+{% endblock %}
