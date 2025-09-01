@@ -1,0 +1,37 @@
+{% extends "index.html" %} 
+{% block content %} 
+
+<div class="card" style="width: 25rem;">
+    <div class="card-header">
+        <h2 style="color: darkorange;">Editing {{product.productname}} supplied by {{product.supplier.companyname}}</h2>
+    </div>
+    <div class="card-body">
+        <!-- <h3 class="card-title">Edit product</h3> -->
+        <form method="post" action="/edit-product-post/{{product.id}}/">
+        {% csrf_token %}
+            <input type="hidden" name="id" value="{{product.id}}">
+            <div class="form-group">
+                <label for="productname">Product name</label>
+                <input class="card-text" type="text" name="productname" value="{{product.productname}}">
+            </div>
+            <div class="form-group">
+                <label for="packagesize">Package size</label>
+                <input class="card-text" type="number" name="packagesize" value="{{product.packagesize}}">
+            </div>
+            <div class="form-group">
+                <label for="unitprice">Unit price</label>
+            <input class="card-text" type="number" step=".01" name="unitprice" value="{{product.unitprice}}">
+            </div>
+            <div class="form-group">
+                <label for="unitsinstock">Units in stock</label>
+            <input class="card-text" type="number" step="1" name="unitsinstock" value="{{product.unitsinstock}}">
+            </div>
+
+            <br />
+            
+            <input type="submit" value="Save changes" class="btn btn-success btn-sm">
+            <a href="/products/" class="btn btn-secondary btn-sm">Cancel</a>
+</div>
+</div>
+
+{% endblock %}

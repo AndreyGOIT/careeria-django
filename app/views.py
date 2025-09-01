@@ -32,6 +32,21 @@ def deleteproduct(request, id):
     Product.objects.get(id = id).delete()
     return redirect(productlistview)
 
+def edit_product_get(request, id):
+        product = Product.objects.get(id = id)
+        context = {'product': product}
+        return render (request,"edit_product.html",context)
+
+
+def edit_product_post(request, id):
+        item = Product.objects.get(id = id)
+        item.unitprice = request.POST['unitprice']
+        item.unitsinstock = request.POST['unitsinstock']
+        item.packagesize = request.POST['packagesize']
+        item.productname = request.POST['productname']
+        item.save()
+        return redirect(productlistview)
+
 # Supplier view´s
 def supplierlistview(request):
     supplierlist = Supplier.objects.all()
