@@ -18,6 +18,8 @@ from django.contrib import admin
 from django.urls import path
 
 from app.views import landing_view, supplierlistview, productlistview, addsupplier, addproduct
+from app.views import deleteproduct, confirmdeleteproduct, \
+    deletesupplier, confirmdeletesupplier
 
 urlpatterns = [
     path('', landing_view),
@@ -25,10 +27,14 @@ urlpatterns = [
     # Product urls
     path('products/', productlistview),
     path('add-product/', addproduct),
+    path('delete-product/<int:id>/', deleteproduct),
+    path('confirm-delete-product/<int:id>/', confirmdeleteproduct),
 
     # Supplier urls
     path('suppliers/', supplierlistview),
     path('add-supplier/', addsupplier),
+    path('delete-supplier/<int:id>/', deletesupplier),
+    path('confirm-delete-supplier/<int:id>/', confirmdeletesupplier),
 
     path('admin/', admin.site.urls),
 ]
