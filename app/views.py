@@ -72,3 +72,17 @@ def confirmdeletesupplier(request, id):
 def deletesupplier(request, id):
     Supplier.objects.get(id = id).delete()
     return redirect(supplierlistview)
+
+def edit_supplier_get(request, id):
+        supplier = Supplier.objects.get(id = id)
+        context = {'supplier': supplier}
+        return render (request,"edit_supplier.html",context)
+
+def edit_supplier_post(request, id):
+        item = Supplier.objects.get(id = id)
+        item.contactname = request.POST['contactname']
+        item.address = request.POST['address']
+        item.phone = request.POST['phone']
+        item.email = request.POST['email']
+        item.save()
+        return redirect(supplierlistview)

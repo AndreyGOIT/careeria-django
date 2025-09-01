@@ -20,6 +20,7 @@ from django.urls import path
 from app.views import landing_view, supplierlistview, productlistview, addsupplier, addproduct
 from app.views import deleteproduct, confirmdeleteproduct, \
     deletesupplier, confirmdeletesupplier, edit_product_get, edit_product_post
+from app.views import edit_supplier_get, edit_supplier_post
 
 urlpatterns = [
     path('', landing_view),
@@ -37,6 +38,8 @@ urlpatterns = [
     path('add-supplier/', addsupplier),
     path('delete-supplier/<int:id>/', deletesupplier),
     path('confirm-delete-supplier/<int:id>/', confirmdeletesupplier),
+    path('edit-supplier-get/<int:id>/', edit_supplier_get, name='edit_supplier'),
+    path('edit-supplier-post/<int:id>/', edit_supplier_post, name='edit_supplier_post'),
 
     path('admin/', admin.site.urls),
 ]
