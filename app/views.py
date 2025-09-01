@@ -47,6 +47,12 @@ def edit_product_post(request, id):
         item.save()
         return redirect(productlistview)
 
+def products_filtered(request, id):
+    productlist = Product.objects.all()
+    filteredproducts = productlist.filter(supplier = id)
+    context = {'products': filteredproducts}
+    return render (request,"productlist.html",context)
+
 # Supplier view´s
 def supplierlistview(request):
     supplierlist = Supplier.objects.all()
