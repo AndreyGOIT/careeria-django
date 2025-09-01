@@ -86,3 +86,9 @@ def edit_supplier_post(request, id):
         item.email = request.POST['email']
         item.save()
         return redirect(supplierlistview)
+
+def searchsuppliers(request):
+    search = request.POST['search']
+    filtered = Supplier.objects.filter(companyname__icontains=search)
+    context = {'suppliers': filtered}
+    return render (request,"supplierlist.html",context)
