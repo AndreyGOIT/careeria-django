@@ -17,14 +17,19 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 
-from app.views import landing_view, supplierlistview, productlistview, addsupplier, addproduct
+from app.views import supplierlistview, productlistview, addsupplier, addproduct
 from app.views import deleteproduct, confirmdeleteproduct, \
     deletesupplier, confirmdeletesupplier, edit_product_get, edit_product_post
 from app.views import edit_supplier_get, edit_supplier_post, searchsuppliers, \
-    products_filtered
+    products_filtered, loginview, login_action, logout_action
 
 urlpatterns = [
-    path('', landing_view),
+    # LANDING PAGE AFTER LOGIN
+    #path('landing/', landing_view),
+    # Loginview and authentication methods
+    path('', loginview, name='loginview'),
+    path('login/', login_action, name='login_action'),
+    path('logout/', logout_action, name='logout_action'),
     
     # Product urls
     path('products/', productlistview),

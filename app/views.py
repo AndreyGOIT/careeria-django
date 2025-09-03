@@ -1,9 +1,39 @@
 from django.shortcuts import render, redirect
 from .models import Supplier, Product
+from django.contrib.auth import authenticate, login, logout
 
-# Create your views here.
+# LANDING AFTER LOGIN
+'''
 def landing_view(request):
     return render(request, 'landingpage.html')
+'''
+# LOGIN AND LOGOUT
+def loginview(request):
+     return render(request, 'loginpage.html')
+
+# Login action
+def login_action(request):
+    user = request.POST['username']
+    passw = request.POST['password']
+    # Löytyykö kyseistä käyttäjää?
+    user = authenticate(username = user, password = passw)
+    #Jos löytyy:
+    if user:
+        # Kirjataan sisään
+        login(request, user)
+        # Tervehdystä varten context
+        context = {'name': user.first_name}
+        # Kutsutaan suoraan landingview.html
+        return render(request,'landingpage.html',context)
+    # Jos ei kyseistä käyttäjää löydy
+    else:
+        return render(request, 'loginerror.html')
+
+
+# Logout action
+def logout_action(request):
+    logout(request)
+    return render(request, 'loginpage.html')
 
 # Product view´s
 def productlistview(request):

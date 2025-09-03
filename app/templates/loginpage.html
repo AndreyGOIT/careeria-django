@@ -1,0 +1,46 @@
+{% extends "index.html" %} {% block content %}
+
+<div class="card" style="width: 25rem; margin-top: 50px">
+  <div class="card-header">
+    <h5>Login</h5>
+    <div class="card-body">
+      <form method="post" action="/login/">
+        {% csrf_token %}
+        <div class="form-group">
+          <label for="username">username</label>
+          <input
+            class="card-text"
+            type="text"
+            placeholder="username"
+            name="username"
+          />
+        </div>
+        <div class="form-group">
+          <label for="password">password</label>
+          <input
+            class="card-text"
+            type="password"
+            placeholder="password"
+            name="password"
+          />
+        </div>
+
+        <input class="btn btn-success btn-sm" type="submit" value="Login" />
+        <input
+          type="button"
+          onclick="window.location.href='/'"
+          class="btn btn-secondary btn-sm"
+          value="Back"
+        />
+      </form>
+    </div>
+    <input
+      type="button"
+      onclick="window.location.href='/admin'"
+      class="btn btn-warning btn-sm"
+      value="Admin page"
+    />
+  </div>
+</div>
+
+{% endblock %}
