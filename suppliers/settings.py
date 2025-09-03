@@ -72,14 +72,25 @@ WSGI_APPLICATION = 'suppliers.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/5.2/ref/settings/#databases
-
+'''
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
         'NAME': BASE_DIR / 'db.sqlite3',
     }
 }
-
+'''
+# Local PostgreSQL configuration
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql', # Или 'django.db.backends.postgresql_psycopg2'
+        'NAME': 'suppliers_db',       # Имя базы данных (по умолчанию 'postgres')
+        'USER': 'andreyerokhin',  # Имя пользователя, которое вы используете в pgAdmin
+        'PASSWORD': '',           # Пароль (если вы его задавали)
+        'HOST': 'localhost',      # Адрес сервера
+        'PORT': '5432',           # Порт
+    }
+}
 
 # Password validation
 # https://docs.djangoproject.com/en/5.2/ref/settings/#auth-password-validators
