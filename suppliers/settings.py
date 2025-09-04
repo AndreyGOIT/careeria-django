@@ -9,7 +9,8 @@ https://docs.djangoproject.com/en/5.2/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/5.2/ref/settings/
 """
-
+import dj_database_url # Импортируем dj-database-url
+import os
 from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -42,6 +43,7 @@ INSTALLED_APPS = [
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',  # Добавляем WhiteNoise middleware
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -81,6 +83,7 @@ DATABASES = {
 }
 '''
 # Local PostgreSQL configuration
+'''
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql', # Или 'django.db.backends.postgresql_psycopg2'
@@ -90,6 +93,15 @@ DATABASES = {
         'HOST': 'localhost',      # Адрес сервера
         'PORT': '5432',           # Порт
     }
+}
+'''
+# Remote PostgreSQL configuration using dj-database-url
+
+DATABASES = {
+    'default': dj_database_url.config(
+        default='postgres://andreyerokhin:@localhost:5432/suppliers_db',
+        conn_max_age=600
+    )
 }
 
 # Password validation
@@ -127,6 +139,15 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/5.2/howto/static-files/
 
 STATIC_URL = 'static/'
+
+# This production code might break development mode, so we check whether we're in DEBUG mode
+if not DEBUG:
+    # Tell Django to copy static assets into a path called `staticfiles` (this is specific to Render)
+    STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+
+    # Enable the WhiteNoise storage backend, which compresses static files to reduce disk use
+    # and renames the files with unique names for each version to support long-term caching
+    STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
