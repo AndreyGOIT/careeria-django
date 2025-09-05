@@ -14,18 +14,16 @@ Including another URLconf
     1. Import the include() function: from django.urls import include, path
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
-from django.contrib import admin
 from django.urls import path
 
-from app.views import supplierlistview, productlistview, addsupplier, addproduct
-from app.views import deleteproduct, confirmdeleteproduct, \
-    deletesupplier, confirmdeletesupplier, edit_product_get, edit_product_post
-from app.views import edit_supplier_get, edit_supplier_post, searchsuppliers, \
-    products_filtered, loginview, login_action, logout_action
+from app.views import loginview, login_action, logout_action
+from app.views import productlistview, addproduct, deleteproduct, confirmdeleteproduct, \
+    edit_product_get, edit_product_post, products_filtered
+from app.views import supplierlistview, addsupplier, deletesupplier, confirmdeletesupplier, \
+    edit_supplier_get, edit_supplier_post, searchsuppliers
 
 urlpatterns = [
-    # LANDING PAGE AFTER LOGIN
-    #path('landing/', landing_view),
+    
     # Loginview and authentication methods
     path('', loginview, name='loginview'),
     path('login/', login_action, name='login_action'),
@@ -48,6 +46,4 @@ urlpatterns = [
     path('edit-supplier-get/<int:id>/', edit_supplier_get, name='edit_supplier'),
     path('edit-supplier-post/<int:id>/', edit_supplier_post, name='edit_supplier_post'),
     path('search-suppliers/', searchsuppliers),
-
-    path('admin/', admin.site.urls),
 ]

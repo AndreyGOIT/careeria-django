@@ -2,12 +2,12 @@ from django.db import models
 
 # Create your models here.
 class Supplier(models.Model):
-    companyname = models.CharField(max_length = 50, default="firma")
-    contactname = models.CharField(max_length = 50, default="firma")
-    address = models.CharField(max_length = 100, default="firma")
-    phone = models.CharField(max_length = 20, default="firma")
-    email = models.CharField(max_length = 50, default="firma")
-    country = models.CharField(max_length = 50, default="firma")
+    companyname = models.CharField(max_length = 50, default="New firma")
+    contactname = models.CharField(max_length = 50, default="John Doe")
+    address = models.CharField(max_length = 100, default="Newstreet 1")
+    phone = models.CharField(max_length = 20, default="+358401234567")
+    email = models.CharField(max_length = 50, default="john.doe@newfirma.com")
+    country = models.CharField(max_length = 50, default="England")
     # ao:n voi tehdä jos haluaa että admin sivu toimii myöhemmässä vaiheessa paremmin,
     # mutta se ei ole välttämätöntä alussa
     def __str__(self):

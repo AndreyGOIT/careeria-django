@@ -3,6 +3,7 @@ import unittest
 
 from suppliers.laskin import add, plus_complicated
 
+# Create your tests here.
 class LaskinTestCase(TestCase):
     def test_add(self):
         # testaa että add-funktio toimii oikein
