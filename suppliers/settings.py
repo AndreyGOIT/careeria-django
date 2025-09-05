@@ -10,7 +10,7 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/5.2/ref/settings/
 """
 import dj_database_url # Импортируем dj-database-url
-import os
+import os # Добавляем импорт os
 from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -138,6 +138,10 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.2/howto/static-files/
 
+# Где собирать статические файлы для production
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+
+# URL для доступа к статическим файлам
 STATIC_URL = 'static/'
 
 # This production code might break development mode, so we check whether we're in DEBUG mode
