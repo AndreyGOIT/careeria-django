@@ -4,6 +4,22 @@ import unittest
 
 from .models import Supplier, Product
 
+from .views import supplierlistview, productlistview
+from django.test import Client
+from django.urls import reverse
+client = Client()
+
+class ListMethodTests(TestCase):
+    def test_listing_products(self):
+        '''Test that the product list view returns a 200 status code'''
+        response = client.get(reverse(productlistview))
+        self.assertEqual(response.status_code, 200)
+        
+    def test_listing_suppliers(self):
+        '''Test that the supplier list view returns a 200 status code.'''
+        response = client.get(reverse(supplierlistview))
+        self.assertEqual(response.status_code, 200)
+
 # Create your tests here.
 class SupplierModelTestCase(TestCase):
     def setUp(self):
