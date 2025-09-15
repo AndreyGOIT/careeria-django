@@ -24,3 +24,29 @@ class Product(models.Model):
      # mutta se ei ole välttämätöntä alussa
     def __str__(self):
         return f"{self.productname} produced by {self.supplier.companyname}"
+    
+class Customer(models.Model):
+    companyname = models.CharField(max_length=100)
+    contactname = models.CharField(max_length=100)
+    contactemail = models.EmailField()
+    phone = models.CharField(max_length=20, blank=True)
+    address = models.TextField(blank=True)
+
+    def __str__(self):
+        return self.companyname
+
+class Order(models.Model):
+    ORDER_STATUS = [
+        ('PND', 'Pending'),
+        ('CMP', 'Completed'),
+        ('CNC', 'Cancelled'),
+    ]
+
+    customer = models.ForeignKey(Customer, on_delete=models.CASCADE)
+    product = models.ForeignKey(Product, on_delete=models.CASCADE)  # Связь с существующей моделью!
+    quantity = models.PositiveIntegerField(default=1)
+    order_date = models.DateTimeField(auto_now_add=True)
+    status = models.CharField(max_length=3, choices=ORDER_STATUS, default='PND')
+
+    def __str__(self):
+        return f"Order #{self.id} by {self.customer.companyname}"

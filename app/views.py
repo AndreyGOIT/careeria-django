@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect
-from .models import Supplier, Product
+from .models import Supplier, Product, Customer
 from django.contrib.auth import authenticate, login, logout
 
 # LANDING AFTER LOGIN
@@ -128,3 +128,27 @@ def searchsuppliers(request):
     filtered = Supplier.objects.filter(companyname__icontains=search)
     context = {'suppliers': filtered}
     return render (request,"supplierlist.html",context)
+
+# Customer view's and Order view's will be added later
+def customerlistview(request):
+    customerlist = Customer.objects.all()
+    context = {'customers': customerlist}
+    return render(request, 'customerlist.html', context)
+
+def addcustomer(request):
+    a = request.POST['companyname']
+    b = request.POST['contactname']
+    c = request.POST['contactemail']
+    d = request.POST['phone']
+    e = request.POST['address']
+    Customer(companyname=a, contactname=b, contactemail=c, phone=d, address=e).save()
+    return redirect(request.META['HTTP_REFERER'])
+
+def confirmdeletecustomer(request, id):
+    customer = Customer.objects.get(id=id)
+    context = {'customer': customer}
+    return render(request, "confirmdelcust.html", context)
+
+def deletecustomer(request, id):
+    Customer.objects.get(id=id).delete()
+    return redirect(customerlistview)
