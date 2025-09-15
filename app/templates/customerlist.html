@@ -1,0 +1,79 @@
+{% extends "index.html" %} {% block content %}
+
+<br />
+<div id="add-div"></div>
+<br />
+
+<h1 style="color: rgb(3, 85, 48)">Customers</h1>
+
+<button id="add-btn" class="btn btn-success btn-sm" onclick="showaddform()">
+  Add new customer
+</button>
+
+<form method="post" action="/search-customers/">
+  {%csrf_token %}
+  <input class="card-text" type="text" placeholder="search" name="search" />
+
+  <input type="submit" value="Search" class="btn btn-success btn-sm" name="" />
+</form>
+
+{% for c in customers %}
+<div class="card" style="width: 50rem">
+  <div class="card-body">
+    <h4 class="card-title">{{c.companyname}}</h4>
+    <p class="card-text">Contact person: {{c.contactname}}</p>
+    <p class="card-text">Contact email: {{c.contactemail}}</p>
+    <p class="card-text">Phone: {{c.phone}}</p>
+    <p class="card-text">Address: {{c.address}}</p>
+
+    <a href="/edit-customer-get/{{c.id}}/" class="btn btn-primary">Edit</a>
+    <a href="/confirm-delete-customer/{{c.id}}/" class="btn btn-danger"
+      >Delete</a
+    >
+    <a href="/orders-by-customer/{{c.id}}/" class="btn btn-secondary"
+      >{{c.companyname}} Orders</a
+    >
+  </div>
+</div>
+
+{% empty %}
+
+<div class="card" style="width: 50rem">
+  <div class="card-body">
+    <p class="card-text">No customers found in the database</p>
+  </div>
+</div>
+{% endfor %}
+
+<script>
+  let x = `
+    <h2 style="color: lightblue">Please fill in form</h2>
+     
+    <div class="card" style="width: 20rem;">
+        <div class="card-body">
+            <form method="post" action="/add-customer/">
+                {%csrf_token %}
+                <input class="card-text" class="card-text" type="text" placeholder="companyname" name="companyname">
+                <input class="card-text" type="text" placeholder="contactname" name="contactname">
+                <input class="card-text" type="email" placeholder="email" name="email">
+                <input class="card-text" type="text" placeholder="phone" name="phone">
+                <input class="card-text" type="text" placeholder="address" name="address">
+                <br />
+                
+                <input type="submit" value="Confirm" class="btn btn-success btn-sm" name="">
+            </form>
+        </div>
+    </div>
+    `;
+
+  function showaddform() {
+    document.getElementById("add-div").innerHTML = x;
+    document.getElementById("add-btn").style.display = "none";
+  }
+  function hideaddform() {
+    document.getElementById("add-div").innerHTML = "";
+    document.getElementById("add-btn").style.display = "inline-block";
+  }
+</script>
+
+{% endblock %}

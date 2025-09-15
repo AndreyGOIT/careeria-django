@@ -1,6 +1,7 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from .models import Supplier, Product, Customer
 from django.contrib.auth import authenticate, login, logout
+from .forms import CustomerForm
 
 # LANDING AFTER LOGIN
 '''
@@ -136,19 +137,42 @@ def customerlistview(request):
     return render(request, 'customerlist.html', context)
 
 def addcustomer(request):
-    a = request.POST['companyname']
-    b = request.POST['contactname']
-    c = request.POST['contactemail']
-    d = request.POST['phone']
-    e = request.POST['address']
+    # Используем .get() для избежания KeyError. '' - значение по умолчанию.
+    a = request.POST.get('companyname', '')
+    b = request.POST.get('contactname', '')
+    c = request.POST.get('email', '')
+    d = request.POST.get('phone', '')  # Теперь, если поля нет, будет пустая строка
+    e = request.POST.get('address', '')
+
+    # Создаем и сохраняем объект Customer
     Customer(companyname=a, contactname=b, contactemail=c, phone=d, address=e).save()
     return redirect(request.META['HTTP_REFERER'])
 
 def confirmdeletecustomer(request, id):
-    customer = Customer.objects.get(id=id)
+    # get_object_or_404 автоматически вернет страницу 404, если объект не найден
+    customer = get_object_or_404(Customer, id=id)
     context = {'customer': customer}
     return render(request, "confirmdelcust.html", context)
 
 def deletecustomer(request, id):
-    Customer.objects.get(id=id).delete()
-    return redirect(customerlistview)
+    customer = get_object_or_404(Customer, id=id)
+    customer.delete()
+    return redirect(customerlistview) # Или лучше использовать именованный URL: redirect('customer_list')
+
+def searchcustomers(request):
+    # 1. Проверяем, что запрос пришел методом POST
+    if request.method == 'POST':
+        # 2. Безопасно получаем значение поиска
+        search_query = request.POST.get('search', '').strip()
+        # 3. Ищем только если строка не пустая
+        if search_query:
+            filtered_customers = Customer.objects.filter(companyname__icontains=search_query)
+        else:
+            # Если поиск пустой, показываем всех клиентов
+            filtered_customers = Customer.objects.all()
+    else:
+        # Если запрос не POST, тоже показываем всех
+        filtered_customers = Customer.objects.all()
+
+    context = {'customers': filtered_customers}
+    return render(request, "customerlist.html", context)

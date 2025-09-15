@@ -21,6 +21,7 @@ from app.views import productlistview, addproduct, deleteproduct, confirmdeletep
     edit_product_get, edit_product_post, products_filtered
 from app.views import supplierlistview, addsupplier, deletesupplier, confirmdeletesupplier, \
     edit_supplier_get, edit_supplier_post, searchsuppliers
+from app.views import customerlistview, addcustomer, confirmdeletecustomer, deletecustomer, searchcustomers
 
 urlpatterns = [
     
@@ -46,4 +47,12 @@ urlpatterns = [
     path('edit-supplier-get/<int:id>/', edit_supplier_get, name='edit_supplier'),
     path('edit-supplier-post/<int:id>/', edit_supplier_post, name='edit_supplier_post'),
     path('search-suppliers/', searchsuppliers),
+
+    # Customer and Order urls will be added later
+    path('customers/', customerlistview, name='customerlistview'),
+    path('add-customer/', addcustomer, name='addcustomer'),  # Placeholder for add customer view
+    path('confirm-delete-customer/<int:id>/', confirmdeletecustomer, name='confirmdeletecustomer'),  # Placeholder for confirm delete customer view
+    path('delete-customer/<int:id>/', deletecustomer, name='deletecustomer'),  # Placeholder for delete customer view
+    path('search-customers/', searchcustomers, name='searchcustomers'),  # Placeholder for search customer view
+
 ]
