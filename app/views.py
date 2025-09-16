@@ -148,11 +148,32 @@ def addcustomer(request):
     Customer(companyname=a, contactname=b, contactemail=c, phone=d, address=e).save()
     return redirect(request.META['HTTP_REFERER'])
 
+def edit_customer(request, id):
+    # Получаем клиента или возвращаем 404 если не найден
+    customer = get_object_or_404(Customer, id=id)
+    
+    if request.method == 'POST':
+        # Обработка отправленной формы
+        customer.companyname = request.POST.get('companyname', customer.companyname)
+        customer.contactname = request.POST.get('contactname', customer.contactname)
+        customer.contactemail = request.POST.get('email', customer.contactemail)
+        customer.phone = request.POST.get('phone', customer.phone)
+        customer.address = request.POST.get('address', customer.address)
+        customer.save()
+        
+        # Перенаправляем на список клиентов после успешного редактирования
+        return redirect('customer_list')
+    
+    else:
+        # Показываем форму с предзаполненными данными
+        context = {'customer': customer}
+        return render(request, 'edit_customer.html', context)
+
 def confirmdeletecustomer(request, id):
     # get_object_or_404 автоматически вернет страницу 404, если объект не найден
     customer = get_object_or_404(Customer, id=id)
     context = {'customer': customer}
-    return render(request, "confirmdelcust.html", context)
+    return render(request, "confirm_delete_customer.html", context)
 
 def deletecustomer(request, id):
     customer = get_object_or_404(Customer, id=id)

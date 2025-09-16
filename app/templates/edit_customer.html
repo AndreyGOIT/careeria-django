@@ -1,0 +1,86 @@
+{% extends "index.html" %} {% block content %}
+
+<div class="container py-5">
+  <div class="row justify-content-center">
+    <div class="col-md-8 col-lg-6">
+      <div class="card shadow-lg border-0">
+        <div class="card-header bg-primary text-white text-center py-4">
+          <h2 class="h3 mb-0">
+            <i class="bi bi-pencil-square"></i> Edit Customer
+          </h2>
+        </div>
+
+        <div class="card-body p-5">
+          <form method="post" action="{% url 'customer_edit' customer.id %}">
+            {% csrf_token %}
+
+            <div class="row g-3">
+              <div class="col-md-6">
+                <label class="form-label fw-bold">Company Name *</label>
+                <input
+                  class="form-control"
+                  type="text"
+                  name="companyname"
+                  value="{{ customer.companyname }}"
+                  required
+                />
+              </div>
+
+              <div class="col-md-6">
+                <label class="form-label fw-bold">Contact Person *</label>
+                <input
+                  class="form-control"
+                  type="text"
+                  name="contactname"
+                  value="{{ customer.contactname }}"
+                  required
+                />
+              </div>
+
+              <div class="col-md-6">
+                <label class="form-label fw-bold">Email *</label>
+                <input
+                  class="form-control"
+                  type="email"
+                  name="email"
+                  value="{{ customer.contactemail }}"
+                  required
+                />
+              </div>
+
+              <div class="col-md-6">
+                <label class="form-label">Phone</label>
+                <input
+                  class="form-control"
+                  type="tel"
+                  name="phone"
+                  value="{{ customer.phone|default:'' }}"
+                />
+              </div>
+
+              <div class="col-12">
+                <label class="form-label">Address</label>
+                <textarea class="form-control" name="address" rows="3">
+{{ customer.address|default:'' }}</textarea
+                >
+              </div>
+
+              <div class="col-12">
+                <div class="d-flex gap-2 pt-3">
+                  <button type="submit" class="btn btn-success">
+                    <i class="bi bi-check-circle"></i> Save Changes
+                  </button>
+                  <a href="{% url 'customer_list' %}" class="btn btn-secondary">
+                    <i class="bi bi-x-circle"></i> Cancel
+                  </a>
+                </div>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% endblock %}
