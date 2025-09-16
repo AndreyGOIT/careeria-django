@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect, get_object_or_404
-from .models import Supplier, Product, Customer
+from .models import Supplier, Product, Customer, Order
 from django.contrib.auth import authenticate, login, logout
 from .forms import CustomerForm
 
@@ -197,3 +197,69 @@ def searchcustomers(request):
 
     context = {'customers': filtered_customers}
     return render(request, "customerlist.html", context)
+
+# Order view's
+def order_list_view(request):
+    """Список всех заказов"""
+    orders = Order.objects.all().select_related('customer', 'product')
+    context = {'orders': orders}
+    return render(request, 'order_list.html', context)
+
+def add_order(request):
+    """Добавление нового заказа"""
+    if request.method == 'POST':
+        try:
+            customer_id = request.POST.get('customer')
+            product_id = request.POST.get('product')
+            quantity = request.POST.get('quantity')
+            status = request.POST.get('status', 'PND')  # Получаем статус из формы
+            
+            customer = Customer.objects.get(id=customer_id)
+            product = Product.objects.get(id=product_id)
+            
+            Order.objects.create(
+                customer=customer,
+                product=product,
+                quantity=quantity,
+                status=status  # Используем выбранный статус
+            )
+            return redirect('order_list')
+            
+        except (Customer.DoesNotExist, Product.DoesNotExist, ValueError):
+            # Обработка ошибок
+            return redirect('order_list')
+    
+    # GET запрос - показать форму
+    customers = Customer.objects.all()
+    products = Product.objects.all()
+    context = {'customers': customers, 'products': products}
+    return render(request, 'add_order.html', context)
+
+def orders_by_customer(request, id):
+    """Заказы конкретного клиента"""
+    customer = get_object_or_404(Customer, id=id)
+    orders = Order.objects.filter(customer=customer).select_related('product')
+    context = {'customer': customer, 'orders': orders}
+    return render(request, 'orders_by_customer.html', context)
+
+def confirm_delete_order(request, id):
+    """Подтверждение удаления заказа"""
+    order = get_object_or_404(Order, id=id)
+    context = {'order': order}
+    return render(request, 'confirm_delete_order.html', context)
+
+def delete_order(request, id):
+    """Удаление заказа"""
+    order = get_object_or_404(Order, id=id)
+    order.delete()
+    return redirect('order_list')
+
+def update_order_status(request, id):
+    """Изменение статуса заказа"""
+    if request.method == 'POST':
+        order = get_object_or_404(Order, id=id)
+        new_status = request.POST.get('status')
+        if new_status in dict(Order.ORDER_STATUS):
+            order.status = new_status
+            order.save()
+        return redirect('order_list')

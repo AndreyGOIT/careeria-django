@@ -22,7 +22,7 @@ from app.views import productlistview, addproduct, deleteproduct, confirmdeletep
 from app.views import supplierlistview, addsupplier, deletesupplier, confirmdeletesupplier, \
     edit_supplier_get, edit_supplier_post, searchsuppliers
 from app.views import customerlistview, addcustomer, confirmdeletecustomer, deletecustomer, searchcustomers, edit_customer
-# from app.views import orderlistview, addorder, deleteorder, confirmdeleteorder,
+from app.views import order_list_view, add_order, confirm_delete_order, delete_order, orders_by_customer, update_order_status
 
 urlpatterns = [
     
@@ -57,7 +57,12 @@ urlpatterns = [
     path('customers/<int:id>/delete/confirm/', confirmdeletecustomer, name='customer_confirm_delete'),
     path('customers/<int:id>/delete/', deletecustomer, name='customer_delete'),
     
-    # Order URLs будут добавлены позже
-    # path('orders/', ...),
+    # Order URLs
+    path('orders/', order_list_view, name='order_list'),
+    path('orders/add/', add_order, name='order_add'),
+    path('orders/<int:id>/delete/confirm/', confirm_delete_order, name='order_confirm_delete'),
+    path('orders/<int:id>/delete/', delete_order, name='order_delete'),
+    path('customers/<int:id>/orders/', orders_by_customer, name='orders_by_customer'),
+    path('orders/<int:id>/update-status/', update_order_status, name='order_update_status'),
 
 ]

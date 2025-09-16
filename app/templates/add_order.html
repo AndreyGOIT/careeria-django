@@ -1,0 +1,104 @@
+{% extends "index.html" %} {% block content %}
+
+<div class="container py-5">
+  <div class="row justify-content-center">
+    <div class="col-md-8 col-lg-6">
+      <!-- Card for adding new order -->
+      <div class="card shadow-lg border-0">
+        <div class="card-header bg-primary text-white text-center py-4">
+          <i class="bi bi-cart-plus display-4 d-block mb-3"></i>
+          <h2 class="h3 mb-0">Create New Order</h2>
+        </div>
+
+        <div class="card-body p-5">
+          <form method="post" action="{% url 'order_add' %}">
+            {% csrf_token %}
+
+            <!-- Customer Selection -->
+            <div class="mb-4">
+              <label class="form-label fw-bold">Select Customer *</label>
+              <select
+                class="form-select form-select-lg"
+                name="customer"
+                required
+              >
+                <option value="">Choose a customer...</option>
+                {% for customer in customers %}
+                <option value="{{ customer.id }}">
+                  {{ customer.companyname }} - {{ customer.contactname }}
+                </option>
+                {% endfor %}
+              </select>
+              <div class="form-text">
+                Choose the customer who placed the order
+              </div>
+            </div>
+
+            <!-- Product Selection -->
+            <div class="mb-4">
+              <label class="form-label fw-bold">Select Product *</label>
+              <select
+                class="form-select form-select-lg"
+                name="product"
+                required
+              >
+                <option value="">Choose a product...</option>
+                {% for product in products %}
+                <option value="{{ product.id }}">
+                  {{ product.productname }} - €{{ product.unitprice }}
+                </option>
+                {% endfor %}
+              </select>
+              <div class="form-text">Choose the product to order</div>
+            </div>
+
+            <!-- Quantity Input -->
+            <div class="mb-4">
+              <label class="form-label fw-bold">Quantity *</label>
+              <input
+                type="number"
+                class="form-control form-control-lg"
+                name="quantity"
+                min="1"
+                value="1"
+                required
+                placeholder="Enter quantity"
+              />
+              <div class="form-text">Number of units to order</div>
+            </div>
+
+            <!-- Status Selection -->
+            <div class="mb-4">
+              <label class="form-label fw-bold">Order Status</label>
+              <select class="form-select form-select-lg" name="status">
+                <option value="PND" selected>Pending</option>
+                <option value="CMP">Completed</option>
+                <option value="CNC">Cancelled</option>
+              </select>
+              <div class="form-text">Initial order status</div>
+            </div>
+
+            <!-- Action Buttons -->
+            <div class="d-grid gap-2 d-md-flex justify-content-md-end pt-3">
+              <button type="submit" class="btn btn-success btn-lg">
+                <i class="bi bi-check-circle"></i> Create Order
+              </button>
+              <a href="{% url 'order_list' %}" class="btn btn-secondary btn-lg">
+                <i class="bi bi-x-circle"></i> Cancel
+              </a>
+            </div>
+          </form>
+        </div>
+
+        <!-- Additional Info Footer -->
+        <div class="card-footer bg-light text-center py-3">
+          <small class="text-muted">
+            <i class="bi bi-info-circle me-1"></i>
+            Orders can be edited or cancelled later from the orders list
+          </small>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
