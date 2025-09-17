@@ -3,6 +3,15 @@ from .models import Supplier, Product, Customer, Order
 from django.contrib.auth import authenticate, login, logout
 from .forms import CustomerForm
 
+def index(request):
+    context = {
+        'suppliers_count': Supplier.objects.count(),
+        'products_count': Product.objects.count(),
+        'customers_count': Customer.objects.count(),
+        'orders_count': Order.objects.count(),
+    }
+    return render(request, 'index.html', context)
+
 # LANDING AFTER LOGIN
 '''
 def landing_view(request):

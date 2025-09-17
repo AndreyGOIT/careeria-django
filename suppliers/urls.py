@@ -16,8 +16,10 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
+from app.views import index  # Import the index view
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
-    path('', include('app.urls')),
+    path('', index, name='index'),        # Main landing page
+    path('admin/', admin.site.urls),      # Adminpanel Django
+    path('', include('app.urls')),        # All app urls
 ]

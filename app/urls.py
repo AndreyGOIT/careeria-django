@@ -26,6 +26,12 @@ from app.views import order_list_view, add_order, confirm_delete_order, delete_o
 
 urlpatterns = [
     
+    # All list views
+    path('suppliers/', supplierlistview, name='supplier_list'),
+    path('products/', productlistview, name='product_list'),
+    path('customers/', customerlistview, name='customer_list'),
+    path('orders/', order_list_view, name='order_list'),
+
     # Loginview and authentication methods
     path('', loginview, name='loginview'),
     path('login/', login_action, name='login_action'),
