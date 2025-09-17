@@ -1,0 +1,91 @@
+{% extends "index.html" %} {% block content %}
+
+<div class="container py-5">
+  <div class="row justify-content-center">
+    <div class="col-md-6 col-lg-5">
+      <!-- Card for delete confirmation -->
+      <div class="card shadow-lg border-0">
+        <div class="card-header bg-danger text-white text-center py-4">
+          <i class="bi bi-cart-x display-4 d-block mb-3"></i>
+          <h2 class="h3 mb-0">Delete Order</h2>
+        </div>
+
+        <div class="card-body p-5 text-center">
+          <!-- Warning icon -->
+          <div class="text-warning mb-4">
+            <i
+              class="bi bi-exclamation-octagon-fill"
+              style="font-size: 3rem"
+            ></i>
+          </div>
+
+          <!-- Order information -->
+          <div class="order-preview mb-4 p-4 bg-light rounded-3">
+            <h4 class="text-danger mb-3">Order #{{ order.id }}</h4>
+            <div class="text-start">
+              <p class="mb-2">
+                <strong>Customer:</strong> {{ order.customer.companyname }}
+              </p>
+              <p class="mb-2">
+                <strong>Product:</strong> {{ order.product.productname }}
+              </p>
+              <p class="mb-2">
+                <strong>Quantity:</strong> {{ order.quantity }}
+              </p>
+              <p class="mb-2">
+                <strong>Status:</strong>
+                <span
+                  class="badge {% if order.status == 'CMP' %}bg-success {% elif order.status == 'CNC' %}bg-danger {% else %}bg-warning{% endif %}"
+                >
+                  {{ order.get_status_display }}
+                </span>
+              </p>
+              <p class="mb-0">
+                <strong>Date:</strong> {{ order.order_date|date:"d.m.Y H:i" }}
+              </p>
+            </div>
+          </div>
+
+          <!-- Warning message -->
+          <div class="alert alert-warning" role="alert">
+            <i class="bi bi-info-circle-fill me-2"></i>
+            <strong>Warning:</strong> This action cannot be undone. The order
+            will be permanently deleted.
+          </div>
+
+          <!-- Action buttons -->
+          <form
+            action="{% url 'order_delete' order.id %}"
+            method="POST"
+            class="d-grid gap-3"
+          >
+            {% csrf_token %}
+            <div class="d-grid gap-2">
+              <button type="submit" class="btn btn-danger btn-lg py-3">
+                <i class="bi bi-trash-fill me-2"></i>
+                Yes, Delete Order
+              </button>
+              <a
+                href="{% url 'order_list' %}"
+                class="btn btn-outline-secondary btn-lg py-3"
+              >
+                <i class="bi bi-arrow-left me-2"></i>
+                Cancel and Go Back
+              </a>
+            </div>
+          </form>
+        </div>
+
+        <!-- Additional warning footer -->
+        <div class="card-footer bg-light text-center py-3">
+          <small class="text-muted">
+            <i class="bi bi-shield-exclamation me-1"></i>
+            This action will permanently remove the order from the database.
+          </small>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% endblock %}

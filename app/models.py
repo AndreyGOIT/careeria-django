@@ -50,3 +50,7 @@ class Order(models.Model):
 
     def __str__(self):
         return f"Order #{self.id} by {self.customer.companyname}"
+    @property
+    def total_price(self):
+        """Calculate total price for the order"""
+        return self.quantity * self.product.unitprice

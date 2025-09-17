@@ -20,7 +20,7 @@ from app.views import loginview, login_action, logout_action
 from app.views import productlistview, addproduct, deleteproduct, confirmdeleteproduct, \
     edit_product_get, edit_product_post, products_filtered
 from app.views import supplierlistview, addsupplier, deletesupplier, confirmdeletesupplier, \
-    edit_supplier_get, edit_supplier_post, searchsuppliers
+    edit_supplier, searchsuppliers
 from app.views import customerlistview, addcustomer, confirmdeletecustomer, deletecustomer, searchcustomers, edit_customer
 from app.views import order_list_view, add_order, confirm_delete_order, delete_order, orders_by_customer, update_order_status
 
@@ -32,22 +32,21 @@ urlpatterns = [
     path('logout/', logout_action, name='logout_action'),
     
     # Product urls
-    path('products/', productlistview),
-    path('add-product/', addproduct),
-    path('delete-product/<int:id>/', deleteproduct),
-    path('confirm-delete-product/<int:id>/', confirmdeleteproduct),
-    path('edit-product-get/<int:id>/', edit_product_get, name='edit_product_get'),
-    path('edit-product-post/<int:id>/', edit_product_post, name='edit_product_post'),
-    path('products-by-supplier/<int:id>/', products_filtered, name='products_filtered'),
+path('products/', productlistview, name='product_list'),
+path('products/add/', addproduct, name='product_add'),
+path('products/<int:id>/', edit_product_get, name='product_edit'),
+path('products/<int:id>/update/', edit_product_post, name='product_update'),
+path('products/<int:id>/delete/confirm/', confirmdeleteproduct, name='product_confirm_delete'),
+path('products/<int:id>/delete/', deleteproduct, name='product_delete'),
+path('suppliers/<int:id>/products/', products_filtered, name='products_by_supplier'),
 
     # Supplier urls
-    path('suppliers/', supplierlistview),
-    path('add-supplier/', addsupplier),
-    path('delete-supplier/<int:id>/', deletesupplier),
-    path('confirm-delete-supplier/<int:id>/', confirmdeletesupplier),
-    path('edit-supplier-get/<int:id>/', edit_supplier_get, name='edit_supplier'),
-    path('edit-supplier-post/<int:id>/', edit_supplier_post, name='edit_supplier_post'),
-    path('search-suppliers/', searchsuppliers),
+    path('suppliers/', supplierlistview, name='supplier_list'),
+    path('suppliers/add/', addsupplier, name='supplier_add'),
+    path('suppliers/<int:id>/', edit_supplier, name='supplier_edit'),
+    path('suppliers/<int:id>/delete/confirm/', confirmdeletesupplier, name='supplier_confirm_delete'),
+    path('suppliers/<int:id>/delete/', deletesupplier, name='supplier_delete'),
+    path('search-suppliers/', searchsuppliers, name='supplier_search'),
 
     # Customer URLs
     path('customers/', customerlistview, name='customer_list'),

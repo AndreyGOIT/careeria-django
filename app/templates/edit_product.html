@@ -9,7 +9,7 @@
   </div>
   <div class="card-body">
     <!-- <h3 class="card-title">Edit product</h3> -->
-    <form method="post" action="/edit-product-post/{{product.id}}/">
+    <form method="post" action="{% url 'product_update' product.id %}">
       {% csrf_token %}
       <input type="hidden" name="id" value="{{product.id}}" />
       <div class="form-group">
