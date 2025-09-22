@@ -53,14 +53,31 @@ def productlistview(request):
     return render (request,"productlist.html",context)
 
 def addproduct(request):
-    a = request.POST['productname']
-    b = request.POST['packagesize']
-    c = request.POST['unitprice']
-    d = request.POST['unitsinstock']
-    e = request.POST['supplier']
+    # Исправляем квадратные скобки на круглые
+    a = request.POST.get('productname', '')
+    b = request.POST.get('packagesize', '')
+    c = request.POST.get('unitprice', '')
+    d = request.POST.get('unitsinstock', '')
+    e = request.POST.get('supplier', '')
     
-    Product(productname = a, packagesize = b, unitprice = c, unitsinstock = d, supplier = Supplier.objects.get(id = e)).save()
-    return redirect(request.META['HTTP_REFERER'])
+    # Добавляем проверку на пустые значения
+    if a and b and c and d and e:  # Проверяем, что все поля заполнены
+        try:
+            supplier_obj = Supplier.objects.get(id=e)
+            Product(
+                productname=a, 
+                packagesize=b, 
+                unitprice=c, 
+                unitsinstock=d, 
+                supplier=supplier_obj
+            ).save()
+            return redirect('product_list')  # Лучше перенаправлять на список продуктов
+        except Supplier.DoesNotExist:
+            # Обработка ошибки, если поставщик не найден
+            return redirect(request.META.get('HTTP_REFERER', '/products/'))
+    else:
+        # Если какие-то поля пустые, возвращаем обратно
+        return redirect(request.META.get('HTTP_REFERER', '/products/'))
 
 def confirmdeleteproduct(request, id):
     product = Product.objects.get(id = id)
@@ -100,12 +117,12 @@ def supplierlistview(request):
     return render (request,"supplierlist.html",context)
 
 def addsupplier(request):
-    a = request.POST['companyname']
-    b = request.POST['contactname']
-    c = request.POST['address']
-    d = request.POST['phone']
-    e = request.POST['email']
-    f = request.POST['country']
+    a = request.POST.get('companyname', '')
+    b = request.POST.get('contactname', '')
+    c = request.POST.get('address', '')
+    d = request.POST.get('phone', '')
+    e = request.POST.get('email', '')
+    f = request.POST.get('country', '')
     Supplier(companyname = a, contactname = b, address = c, phone = d, email = e, country = f).save()
     return redirect(request.META['HTTP_REFERER'])
 

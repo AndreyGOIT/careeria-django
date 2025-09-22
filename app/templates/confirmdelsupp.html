@@ -7,9 +7,12 @@
     <h3 class="card-title">Confirm removal of supplier</h3>
     <h5 class="card-text">Company: {{supplier.companyname}}</h5>
 
-    <a href="/suppliers/" class="btn btn-primary">Back</a>
+    <a href="{% url 'supplier_list' %}" class="btn btn-primary">Back</a>
 
-    <a href="/delete-supplier/{{supplier.id}}/" class="btn btn-danger"
+    <!-- <a href="/delete-supplier/{{supplier.id}}/" class="btn btn-danger"
+      >Delete</a
+    > -->
+    <a href="{% url 'supplier_delete' supplier.id %}" class="btn btn-danger"
       >Delete</a
     >
   </div>

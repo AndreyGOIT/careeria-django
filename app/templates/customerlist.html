@@ -48,19 +48,19 @@
       <div class="card-body">
         <div class="customer-info mb-3">
           <div class="d-flex align-items-center mb-2">
-            <i class="bi bi-person me-2 text-secondary"></i>
+            <i class="bi bi-person me-2 text-secondary mr-1"></i>
             <span class="text-muted">{{c.contactname}}</span>
           </div>
           <div class="d-flex align-items-center mb-2">
-            <i class="bi bi-envelope me-2 text-secondary"></i>
+            <i class="bi bi-envelope me-2 text-secondary mr-1"></i>
             <span class="text-muted">{{c.contactemail}}</span>
           </div>
           <div class="d-flex align-items-center mb-2">
-            <i class="bi bi-telephone me-2 text-secondary"></i>
+            <i class="bi bi-telephone me-2 text-secondary mr-1"></i>
             <span class="text-muted">{{c.phone|default:"Not provided"}}</span>
           </div>
           <div class="d-flex align-items-center mb-2">
-            <i class="bi bi-geo-alt me-2 text-secondary"></i>
+            <i class="bi bi-geo-alt me-2 text-secondary mr-1"></i>
             <span class="text-muted">{{c.address|default:"Not provided"}}</span>
           </div>
         </div>
@@ -69,13 +69,13 @@
         <div class="d-grid gap-2 d-md-flex justify-content-md-end">
           <a
             href="{% url 'customer_edit' c.id %}"
-            class="btn btn-outline-primary btn-sm me-md-2"
+            class="btn btn-outline-primary btn-sm me-md-2 mr-1"
           >
             <i class="bi bi-pencil"></i> Edit
           </a>
           <a
             href="{% url 'customer_confirm_delete' c.id %}"
-            class="btn btn-outline-danger btn-sm me-md-2"
+            class="btn btn-outline-danger btn-sm me-md-2 mr-1"
           >
             <i class="bi bi-trash"></i> Delete
           </a>
@@ -107,7 +107,7 @@
             <h3 class="mb-0"><i class="bi bi-person-plus"></i> Add New Customer</h3>
         </div>
         <div class="card-body">
-            <form method="post" action="/add-customer/" class="row g-3">
+            <form method="post" action="{% url 'customer_add' %}" class="row g-3">
                 {% csrf_token %}
                 <div class="col-md-6">
                     <label class="form-label fw-bold">Company Name *</label>
